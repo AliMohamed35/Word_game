@@ -5,3 +5,4 @@ The HTML provides the structure and layout, while CSS enhances the visual appeal
 Whether you're a developer interested in learning more about these technologies or just someone looking for a fun and addictive game, 
 this project is a great example of how to combine these tools into a cohesive and enjoyable experience. Feel free to explore the code, contribute improvements, 
 or use it as a starting point for your own creative projects!
+![Untitled](https://github.com/user-attachments/assets/f39c973c-c02f-4eee-859d-864d6ff5f49e)
