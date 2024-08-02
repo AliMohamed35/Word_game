@@ -32,6 +32,37 @@ function generateInput(){
         inputsContainer.appendChild(tryDiv);
     }
     inputsContainer.children[0].children[1].focus(); // we used 1 because the 0 is the first child and we dont want to catch the span 
+
+    // Disable all inputs except first one
+    const inputsInDisabledDiv = document.querySelectorAll(".disabled-inputs input") // here I caught all inputs located inside disabled-inputs class
+    inputsInDisabledDiv.forEach((input) => (input.disabled = true));
+
+    // Navigation step
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach((input, index) => {
+        input.addEventListener("input", function(){
+            this.value = this.value.toUpperCase(); // the value that is entered will be converted to upper case.
+            // console.log(index);
+            const nextInput = inputs[index + 1];
+            if(nextInput) nextInput.focus();
+        }); // this is one way to navigate and get index
+
+        input.addEventListener("keydown", function(event){
+            console.log(event);
+            const currentIndex =Array.from(inputs).indexOf(event.target); // or we may use this keyword
+            console.log(currentIndex);
+
+            if(event.key === "ArrowRight"){
+                const nextInput = currentIndex + 1;
+                if(nextInput < inputs.length) inputs[nextInput].focus();
+            }
+            if(event.key === "ArrowLeft"){
+                const prevInput = currentIndex - 1;
+                if(prevInput >= 0)inputs[prevInput].focus();
+            }
+            // this is another way to navigate and get index
+        });
+    });
 }
 
 window.onload = function(){
