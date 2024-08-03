@@ -9,23 +9,29 @@ let numbersOfTries = 6;
 let numbersOfLetters = 6
 let currentTry = 1; // created it to be able to disable and unable the try user is actually on now
 
-function generateInput(){
+// Manage Words
+let wordToGuess = "";
+const words = ["Create", "Update", "Delete", "Master", "Branch", "Mainly", "Elzero", "School"];
+wordToGuess = words[Math.floor(Math.random() * words.length)].toLowerCase(); // this will generate random number from the array >> words[1] for ex.
+
+
+function generateInput() {
     const inputsContainer = document.querySelector(".inputs");
 
     // Create Main Try Div
-    for(let i = 1; i <= numbersOfTries; i++){
+    for (let i = 1; i <= numbersOfTries; i++) {
         const tryDiv = document.createElement("div");
         tryDiv.classList.add(`try-${i}`) // div class will be >> try-1
         tryDiv.innerHTML = `<span>Try ${i}</span>`; // number of tries on the left
 
-        if(i !== 1) tryDiv.classList.add("disabled-inputs");
+        if (i !== 1) tryDiv.classList.add("disabled-inputs");
 
         // Create Inputs
-        for(let j = 1; j <= numbersOfLetters; j++){
+        for (let j = 1; j <= numbersOfLetters; j++) {
             const input = document.createElement("input");
             input.type = "text";
             input.id = `guess-${i}-letter-${j}`
-            input.setAttribute("maxlength","1")
+            input.setAttribute("maxlength", "1")
             tryDiv.appendChild(input);
         }
 
@@ -40,31 +46,56 @@ function generateInput(){
     // Navigation step
     const inputs = document.querySelectorAll("input");
     inputs.forEach((input, index) => {
-        input.addEventListener("input", function(){
+        input.addEventListener("input", function () {
             this.value = this.value.toUpperCase(); // the value that is entered will be converted to upper case.
             // console.log(index);
             const nextInput = inputs[index + 1];
-            if(nextInput) nextInput.focus();
+            if (nextInput) nextInput.focus();
         }); // this is one way to navigate and get index
 
-        input.addEventListener("keydown", function(event){
+        input.addEventListener("keydown", function (event) {
             console.log(event);
-            const currentIndex =Array.from(inputs).indexOf(event.target); // or we may use this keyword
+            const currentIndex = Array.from(inputs).indexOf(event.target); // or we may use this keyword
             console.log(currentIndex);
 
-            if(event.key === "ArrowRight"){
+            if (event.key === "ArrowRight") {
                 const nextInput = currentIndex + 1;
-                if(nextInput < inputs.length) inputs[nextInput].focus();
+                if (nextInput < inputs.length) inputs[nextInput].focus();
             }
-            if(event.key === "ArrowLeft"){
+            if (event.key === "ArrowLeft") {
                 const prevInput = currentIndex - 1;
-                if(prevInput >= 0)inputs[prevInput].focus();
+                if (prevInput >= 0) inputs[prevInput].focus();
             }
             // this is another way to navigate and get index
         });
     });
 }
 
-window.onload = function(){
+const guessButton = document.querySelector(".check");
+guessButton.addEventListener("click", handleGuesses);
+
+console.log(wordToGuess);
+
+function handleGuesses() {
+    let successGuess = true;
+    for (let i = 1; i <= numbersOfLetters; i++) {
+        const inputField = document.querySelector(`#guess-${currentTry}-letter-${i}`); // we use here # because its an id
+        const letter = inputField.value.toLowerCase();
+        const actualLetter = wordToGuess[i - 1]; // because here we start from 0 so this will return 0 cuz in the loop i = 1
+
+        // Game Logic
+        if (letter === actualLetter) {
+            inputField.classList.add("yes-in-place");
+        } else if (wordToGuess.includes(letter) && letter !== "") {
+            inputField.classList.add("not-in-place")
+            successGuess = false;
+        } else{
+            inputField.classList.add("no")
+            successGuess = false;
+        }
+    }
+}
+
+window.onload = function () {
     generateInput();
 };

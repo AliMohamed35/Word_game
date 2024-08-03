@@ -78,7 +78,39 @@ h1 {
                     color: white;
                 }
             }
+            
 
+        }
+        .control{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 500px;
+            margin: 30px auto;
+            gap: 10px;
+           
+             .check{
+                background-color: var(--primary-color);
+                
+                flex: 1;
+            }
+            .hint{
+                background-color: #009688; 
+            }
+            button{
+                font-weight: bold;
+                border-radius: 6px;
+                border: none;
+                color: white;
+                padding: 15px 20px;
+                font-size: 25px;
+                cursor: pointer;
+            }
+            button:disabled{
+                opacity: 0.4;
+                background-color: black;
+                cursor: no-drop;
+            }
         }
     }
 }
