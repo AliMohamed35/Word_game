@@ -13,7 +13,7 @@ let currentTry = 1; // created it to be able to disable and unable the try user 
 let wordToGuess = "";
 const words = ["Create", "Update", "Delete", "Master", "Branch", "Mainly", "Elzero", "School"];
 wordToGuess = words[Math.floor(Math.random() * words.length)].toLowerCase(); // this will generate random number from the array >> words[1] for ex.
-
+let messageArea = document.querySelector(".message");
 
 function generateInput() {
     const inputsContainer = document.querySelector(".inputs");
@@ -54,9 +54,9 @@ function generateInput() {
         }); // this is one way to navigate and get index
 
         input.addEventListener("keydown", function (event) {
-            console.log(event);
+            // console.log(event);
             const currentIndex = Array.from(inputs).indexOf(event.target); // or we may use this keyword
-            console.log(currentIndex);
+            // console.log(currentIndex);
 
             if (event.key === "ArrowRight") {
                 const nextInput = currentIndex + 1;
@@ -89,10 +89,25 @@ function handleGuesses() {
         } else if (wordToGuess.includes(letter) && letter !== "") {
             inputField.classList.add("not-in-place")
             successGuess = false;
-        } else{
+        } else {
             inputField.classList.add("no")
             successGuess = false;
         }
+    }
+
+
+    // check if user win or lose
+    if (successGuess) {
+        messageArea.innerHTML = `You win the word is <span>${wordToGuess}</span>`;
+
+        let allTries = document.querySelectorAll(".inputs > div");
+        allTries.forEach((tryDiv) => tryDiv.classList.add("disabled-inputs"));
+
+        //Disable submit button
+        guessButton.disabled = true;
+
+    } else {
+        messageArea.innerHTML = `You lost the word is <span>${wordToGuess}</span>`;
     }
 }
 
