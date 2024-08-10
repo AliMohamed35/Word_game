@@ -106,8 +106,26 @@ function handleGuesses() {
         //Disable submit button
         guessButton.disabled = true;
 
+    } else { // this to disable the wrong try
+        document.querySelector(`.try-${currentTry}`).classList.add("disabled-inputs");
+        const currentTryInputs = document.querySelectorAll(`.try-${currentTry} input`);
+        currentTryInputs.forEach((input) => (input.disabled = true));
+
+        currentTry++;
+
+
+        const nextTryInputs = document.querySelectorAll(`.try-${currentTry} input`);
+        nextTryInputs.forEach((input) => (input.disabled = false));
+    }
+
+    let el = document.querySelector(`.try-${currentTry}`);
+
+    if (el) {
+        document.querySelector(`.try-${currentTry}`).classList.remove("disabled-inputs"); // if element is found remove the class from next
+        el.children[1].focus(); // 1 because the first el which is 0 is a span 
     } else {
-        messageArea.innerHTML = `You lost the word is <span>${wordToGuess}</span>`;
+        guessButton.disabled = true;
+        messageArea.innerHTML = `You lose the word is <span>${wordToGuess}</span>`;
     }
 }
 
