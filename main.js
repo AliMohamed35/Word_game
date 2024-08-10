@@ -8,6 +8,13 @@ document.querySelector("footer").innerHTML = `${gameName} created by Ali Mohamed
 let numbersOfTries = 6;
 let numbersOfLetters = 6
 let currentTry = 1; // created it to be able to disable and unable the try user is actually on now
+let numberOfHints = 2;
+
+// Manage hints
+document.querySelector(".hint span").innerHTML = numberOfHints;
+const getHintButton = document.querySelector(".hint");
+
+getHintButton.addEventListener("click", getHint);
 
 // Manage Words
 let wordToGuess = "";
@@ -128,6 +135,35 @@ function handleGuesses() {
         messageArea.innerHTML = `You lose the word is <span>${wordToGuess}</span>`;
     }
 }
+
+function getHint() {
+    if (numberOfHints > 0) {
+        numberOfHints--;
+        document.querySelector(".hint span").innerHTML = numberOfHints;
+    }
+    if (numberOfHints === 0) {
+        getHintButton.disabled = true;
+    }
+
+    const enabledInputs = document.querySelectorAll("input:not([disabled])"); // to get only enabled inputs
+    // console.log(enabledInputs); for test
+    const emptyEnabledInputs = Array.from(enabledInputs).filter((input) => input.value === "");
+    // console.log(emptyEnabledInputs); for test
+
+    if (emptyEnabledInputs.length > 0) { // that means if only there is 1 empty field
+        const randomIndex = Math.floor(Math.random() * emptyEnabledInputs.length);
+        const randomInput = emptyEnabledInputs[randomIndex];
+        const indexToFill = Array.from(enabledInputs).indexOf(randomInput);
+
+        // console.log(randomIndex);
+        // console.log(randomInput);
+        // console.log(indexToFill);
+        if(indexToFill !== -1){
+            randomInput.value = wordToGuess[indexToFill].toUpperCase();
+        }
+    }
+}
+
 
 window.onload = function () {
     generateInput();
